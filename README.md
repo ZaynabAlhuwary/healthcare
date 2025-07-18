@@ -184,7 +184,7 @@ POST /chat
 Request body:
 ```json
 {
-  "query": "Which facilities have more than 2 patients?"
+  "query": "Which facilities have more than 40 patients?"
 }
 ```
 
