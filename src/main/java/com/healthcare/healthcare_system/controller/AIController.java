@@ -10,12 +10,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Ai controller.
+ */
 @RestController
 @RequestMapping("/api/chat")
 @RequiredArgsConstructor
 public class AIController {
     private final AIService aiService;
 
+    /**
+     * Process query response entity.
+     *
+     * @param chatRequest the chat request
+     * @return the response entity
+     */
     @PostMapping
     public ResponseEntity<ChatResponse> processQuery(@RequestBody ChatRequest chatRequest) {
         return ResponseEntity.ok(aiService.processQuery(chatRequest));

@@ -17,6 +17,9 @@ import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * The type Ai service.
+ */
 @Service
 @RequiredArgsConstructor
 public class AIService {
@@ -55,13 +58,55 @@ public class AIService {
 //        return handleComplexQueryWithOllama(chatRequest);
 //    }
 
+    /**
+     * Process query chat response.
+     *
+     * @param chatRequest the chat request
+     * @return the chat response
+     */
+//    public ChatResponse processQuery(ChatRequest chatRequest) {
+//        String query = chatRequest.getQuery().toLowerCase();
+//        ChatResponse response = new ChatResponse();
+//
+//        try {
+//            // Handle known query patterns
+//            if (query.contains("list patients from facility") || query.contains("patients in facility")) {
+//                Long facilityId = extractIdFromQuery(query);
+//                if (facilityId != null) {
+//                    List<PatientDto> patients = patientService.getPatientsByFacility(facilityId, Pageable.unpaged()).getContent();
+//                    response.setResponse("Here are the patients from facility " + facilityId);
+//                    response.setData(patients);
+//                    return response;
+//                }
+//            } else if (query.contains("facilities with more than") || query.contains("facilities having more than")) {
+//                int count = extractNumberFromQuery(query);
+//                List<FacilityDto> facilities = facilityService.getFacilitiesWithPatientCountGreaterThan(count);
+//                System.out.println("***************************************************"+facilities.size());
+//                if (facilities != null && !facilities.isEmpty()) {
+//                    response.setResponse("Facilities with more than " + count + " patients:");
+//                    response.setData(facilities);
+//                } else {
+//                    response.setResponse("No facilities found with more than " + count + " patients.");
+//                }
+//                return response;
+//            }
+//
+//            // Fallback to Ollama for complex queries
+//            return handleComplexQueryWithOllama(chatRequest);
+//        } catch (Exception e) {
+//            ChatResponse errorResponse = new ChatResponse();
+//            errorResponse.setResponse("Sorry, I encountered an error processing your request: " + e.getMessage());
+//            return errorResponse;
+//        }
+//    }
+
     public ChatResponse processQuery(ChatRequest chatRequest) {
         String query = chatRequest.getQuery().toLowerCase();
         ChatResponse response = new ChatResponse();
 
         try {
             // Handle known query patterns
-            if (query.contains("list patients from facility") || query.contains("patients in facility")) {
+            if (query.contains("patients from facility") || query.contains("patients in facility")) {
                 Long facilityId = extractIdFromQuery(query);
                 if (facilityId != null) {
                     List<PatientDto> patients = patientService.getPatientsByFacility(facilityId, Pageable.unpaged()).getContent();
@@ -69,10 +114,10 @@ public class AIService {
                     response.setData(patients);
                     return response;
                 }
-            } else if (query.contains("facilities with more than") || query.contains("facilities having more than")) {
+            } else if (query.matches(".*facilit(y|ies).*more than.*\\d+.*patient.*") ||
+                    query.matches(".*which facilit(y|ies).*have more than.*\\d+.*patient.*")) {
                 int count = extractNumberFromQuery(query);
                 List<FacilityDto> facilities = facilityService.getFacilitiesWithPatientCountGreaterThan(count);
-                System.out.println("***************************************************"+facilities.size());
                 if (facilities != null && !facilities.isEmpty()) {
                     response.setResponse("Facilities with more than " + count + " patients:");
                     response.setData(facilities);

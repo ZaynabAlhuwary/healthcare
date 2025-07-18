@@ -5,6 +5,9 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.LocalDate;
 
+/**
+ * The type Patient dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

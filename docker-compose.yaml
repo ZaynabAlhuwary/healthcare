@@ -1,40 +1,49 @@
+version: '3.8'
+
 services:
   healthcare-app:
     build: .
-    container_name: healthcare-app
     ports:
       - "8888:8888"
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/healthcare_db
-      - SPRING_DATASOURCE_USERNAME=healthcare
-      - SPRING_DATASOURCE_PASSWORD=healthcare123
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/healthcare
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - OLLAMA_API_BASE_URL=http://ollama:11434
       - OLLAMA_MODEL=llama2
     depends_on:
       - postgres
       - ollama
+    networks:
+      - healthcare-network
 
   postgres:
-    image: postgres:15-alpine
-    container_name: postgres
+    image: postgres:15
     environment:
-      - POSTGRES_DB=healthcare_db
-      - POSTGRES_USER=healthcare
-      - POSTGRES_PASSWORD=healthcare123
+      - POSTGRES_DB=healthcare
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - healthcare-network
 
   ollama:
     image: ollama/ollama
-    container_name: ollama
     ports:
       - "11434:11434"
     volumes:
       - ollama-data:/root/.ollama
+    networks:
+      - healthcare-network
 
 volumes:
   postgres-data:
   ollama-data:
+
+networks:
+  healthcare-network:
+    driver: bridge

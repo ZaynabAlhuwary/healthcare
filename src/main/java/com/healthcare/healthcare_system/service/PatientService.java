@@ -23,6 +23,9 @@ import java.util.List;
 
 import static com.healthcare.healthcare_system.util.MessageUtils.*;
 
+/**
+ * The type Patient service.
+ */
 @Service
 @RequiredArgsConstructor
 public class PatientService {
@@ -32,11 +35,23 @@ public class PatientService {
     private final ModelMapper modelMapper;
     private final AuditLogService auditLogService;
 
+    /**
+     * Configure model mapper.
+     */
     @PostConstruct
     public void configureModelMapper() {
         PatientUtils.configurePatientModelMapper(modelMapper);
     }
 
+    /**
+     * Gets all patients.
+     *
+     * @param pageable the pageable
+     * @param search the search
+     * @param dob the dob
+     * @param gender the gender
+     * @return the all patients
+     */
     public Page<PatientDto> getAllPatients(Pageable pageable, String search, LocalDate dob, String gender) {
         try {
             Page<Patient> patients = findPatientsByCriteria(pageable, search, dob, gender);
@@ -46,6 +61,12 @@ public class PatientService {
         }
     }
 
+    /**
+     * Gets patient by id.
+     *
+     * @param id the id
+     * @return the patient by id
+     */
     public PatientDto getPatientById(Long id) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -59,6 +80,13 @@ public class PatientService {
         return modelMapper.map(patient, PatientDto.class);
     }
 
+    /**
+     * Gets patients by facility.
+     *
+     * @param facilityId the facility id
+     * @param pageable the pageable
+     * @return the patients by facility
+     */
     public Page<PatientDto> getPatientsByFacility(Long facilityId, Pageable pageable) {
         try {
             validateFacilityExists(facilityId);
@@ -77,6 +105,12 @@ public class PatientService {
         }
     }
 
+    /**
+     * Create patient patient dto.
+     *
+     * @param patientDto the patient dto
+     * @return the patient dto
+     */
     @Transactional
     public PatientDto createPatient(PatientDto patientDto) {
         try {
@@ -115,6 +149,13 @@ public class PatientService {
         }
     }
 
+    /**
+     * Update patient patient dto.
+     *
+     * @param id the id
+     * @param patientDto the patient dto
+     * @return the patient dto
+     */
     @Transactional
     public PatientDto updatePatient(Long id, PatientDto patientDto) {
         try {
@@ -148,6 +189,11 @@ public class PatientService {
         }
     }
 
+    /**
+     * Delete patient.
+     *
+     * @param id the id
+     */
     @Transactional
     public void deletePatient(Long id) {
         try {

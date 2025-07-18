@@ -13,16 +13,32 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * The type Audit log controller.
+ */
 @RestController
 @RequestMapping("/api/audit-logs")
 public class AuditLogController {
 
     private final AuditLogService auditLogService;
 
+    /**
+     * Instantiates a new Audit log controller.
+     *
+     * @param auditLogService the audit log service
+     */
     public AuditLogController(AuditLogService auditLogService) {
         this.auditLogService = auditLogService;
     }
 
+    /**
+     * Gets all audit logs.
+     *
+     * @param page the page
+     * @param size the size
+     * @param sort the sort
+     * @return the all audit logs
+     */
     @GetMapping
     public ResponseEntity<Page<AuditLog>> getAllAuditLogs(
             @RequestParam(defaultValue = "0") int page,
@@ -39,6 +55,12 @@ public class AuditLogController {
         return ResponseEntity.ok(auditLogs);
     }
 
+    /**
+     * Gets audit logs by entity type.
+     *
+     * @param entityType the entity type
+     * @return the audit logs by entity type
+     */
     @GetMapping("/entity-type/{entityType}")
     public ResponseEntity<List<AuditLog>> getAuditLogsByEntityType(
             @PathVariable String entityType) {
@@ -46,6 +68,13 @@ public class AuditLogController {
         return ResponseEntity.ok(auditLogs);
     }
 
+    /**
+     * Gets audit logs for entity.
+     *
+     * @param entityType the entity type
+     * @param entityId the entity id
+     * @return the audit logs for entity
+     */
     @GetMapping("/entity/{entityType}/{entityId}")
     public ResponseEntity<List<AuditLog>> getAuditLogsForEntity(
             @PathVariable String entityType,
@@ -54,6 +83,12 @@ public class AuditLogController {
         return ResponseEntity.ok(auditLogs);
     }
 
+    /**
+     * Gets audit logs by action.
+     *
+     * @param action the action
+     * @return the audit logs by action
+     */
     @GetMapping("/action/{action}")
     public ResponseEntity<List<AuditLog>> getAuditLogsByAction(
             @PathVariable String action) {
@@ -61,6 +96,13 @@ public class AuditLogController {
         return ResponseEntity.ok(auditLogs);
     }
 
+    /**
+     * Gets audit logs by date range.
+     *
+     * @param start the start
+     * @param end the end
+     * @return the audit logs by date range
+     */
     @GetMapping("/date-range")
     public ResponseEntity<List<AuditLog>> getAuditLogsByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
@@ -69,6 +111,13 @@ public class AuditLogController {
         return ResponseEntity.ok(auditLogs);
     }
 
+    /**
+     * Gets entity history.
+     *
+     * @param entityType the entity type
+     * @param entityId the entity id
+     * @return the entity history
+     */
     @GetMapping("/history/{entityType}/{entityId}")
     public ResponseEntity<List<AuditLog>> getEntityHistory(
             @PathVariable String entityType,

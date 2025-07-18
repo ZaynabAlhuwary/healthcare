@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+/**
+ * The type Facility dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

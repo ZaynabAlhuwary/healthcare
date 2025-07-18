@@ -6,6 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * The type Audit log.
+ */
 @Entity
 @Table(name = "audit_log")
 @Getter

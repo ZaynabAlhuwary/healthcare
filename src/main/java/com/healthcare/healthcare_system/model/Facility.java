@@ -10,6 +10,9 @@ import org.hibernate.annotations.Where;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * The type Facility.
+ */
 @Entity
 @Table(name = "facilities")
 @Getter

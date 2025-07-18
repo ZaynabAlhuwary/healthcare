@@ -10,6 +10,9 @@ import org.hibernate.annotations.Where;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * The type Patient.
+ */
 @Entity
 @Table(name = "patients")
 @Getter

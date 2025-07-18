@@ -26,6 +26,9 @@ import static com.healthcare.healthcare_system.util.FacilityUtils.convertToDto;
 import static com.healthcare.healthcare_system.util.FacilityUtils.convertToDtoPage;
 import static com.healthcare.healthcare_system.util.MessageUtils.*;
 
+/**
+ * The type Facility service.
+ */
 @Service
 @RequiredArgsConstructor
 public class FacilityService {
@@ -36,6 +39,14 @@ public class FacilityService {
     private final ModelMapper modelMapper;
     private final AuditLogService auditLogService;
 
+    /**
+     * Gets all facilities.
+     *
+     * @param pageable the pageable
+     * @param name the name
+     * @param type the type
+     * @return the all facilities
+     */
     public Page<FacilityDto> getAllFacilities(Pageable pageable, String name, String type) {
         try {
             Page<Facility> facilities = findFacilitiesByCriteria(pageable, name, type);
@@ -45,6 +56,12 @@ public class FacilityService {
         }
     }
 
+    /**
+     * Gets facility by id.
+     *
+     * @param id the id
+     * @return the facility by id
+     */
     public FacilityDto getFacilityById(Long id) {
         try {
             Facility facility = findFacilityByIdOrThrow(id);
@@ -54,6 +71,12 @@ public class FacilityService {
         }
     }
 
+    /**
+     * Create facility facility dto.
+     *
+     * @param facilityDto the facility dto
+     * @return the facility dto
+     */
     @Transactional
     public FacilityDto createFacility(FacilityDto facilityDto) {
         try {
@@ -73,6 +96,13 @@ public class FacilityService {
         }
     }
 
+    /**
+     * Update facility facility dto.
+     *
+     * @param id the id
+     * @param facilityDto the facility dto
+     * @return the facility dto
+     */
     @Transactional
     public FacilityDto updateFacility(Long id, FacilityDto facilityDto) {
         try {
@@ -93,6 +123,11 @@ public class FacilityService {
         }
     }
 
+    /**
+     * Delete facility.
+     *
+     * @param id the id
+     */
     @Transactional
     public void deleteFacility(Long id) {
         try {
@@ -107,6 +142,12 @@ public class FacilityService {
         }
     }
 
+    /**
+     * Gets facilities with patient count greater than.
+     *
+     * @param count the count
+     * @return the facilities with patient count greater than
+     */
     public List<FacilityDto> getFacilitiesWithPatientCountGreaterThan(int count) {
         try {
             List<Facility> facilities = facilityRepository.findFacilitiesWithPatientCountGreaterThan(count);
