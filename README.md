@@ -177,6 +177,17 @@ Request body:
 }
 ```
 
+#### Complex Query
+```
+POST /chat
+```
+Request body:
+```json
+{
+  "query": "Which facilities have more than 2 patients?"
+}
+```
+
 Supported query patterns:
 - "List patients from facility X"
 - "Which facilities have more than 50 patients?"
